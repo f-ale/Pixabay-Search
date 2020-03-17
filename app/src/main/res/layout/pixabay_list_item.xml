@@ -7,12 +7,19 @@
         <variable
             name="pixabayImage"
             type="com.francescoalessi.pixabaysearch.model.PixabayImage"/>
+        <variable
+            name="imagePosition"
+            type="Integer"/>
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener"/>
     </data>
 
     <androidx.cardview.widget.CardView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{clickListener}">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:orientation="horizontal"
@@ -21,6 +28,7 @@
 
             <ImageView
                 bind:image="@{pixabayImage.imageURL}"
+                app:thumbnail="@{pixabayImage.previewURL}"
                 android:id="@+id/iv_thumbnail"
                 android:layout_width="0dp"
                 android:layout_height="42dp"

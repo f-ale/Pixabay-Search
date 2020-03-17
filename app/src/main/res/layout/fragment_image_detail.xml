@@ -1,67 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.ImageDetailFragment">
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="pixabayImage"
+            type="com.francescoalessi.pixabaysearch.model.PixabayImage" />
+    </data>
 
-    <ImageView
-        android:id="@+id/iv_image_detail"
-        android:layout_width="0dp"
-        android:layout_height="270dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/backgrounds/scenic[1]" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_image_detail"
-        tools:text="User1234" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            tools:context=".ui.ImageDetailFragment">
 
-    <TextView
-        android:id="@+id/tv_tags"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        tools:text="flowers, fruits, vegetables"
-        app:layout_constraintStart_toStartOf="@+id/tv_username"
-        app:layout_constraintTop_toBottomOf="@+id/tv_username" />
+            <ImageView
+                android:id="@+id/iv_image_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="284dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                app:bigImage="@{pixabayImage.largeImageURL}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:thumbnail="@{pixabayImage.previewURL}"
+                tools:src="@tools:sample/backgrounds/scenic[1]" />
 
-    <TextView
-        android:id="@+id/tv_likes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_username"
-        app:layout_constraintStart_toEndOf="@+id/tv_username"
-        tools:text="1231 likes" />
+            <TextView
+                android:id="@+id/tv_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:text="@{pixabayImage.username}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/iv_image_detail"
+                tools:text="User1234" />
 
-    <TextView
-        android:id="@+id/tv_favorites"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_likes"
-        app:layout_constraintStart_toEndOf="@+id/tv_likes"
-        tools:text="453 favorites" />
+            <TextView
+                android:id="@+id/tv_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{pixabayImage.tags}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_tags_title"
+                app:layout_constraintStart_toEndOf="@+id/tv_tags_title"
+                tools:text="flowers, fruits, vegetables" />
 
-    <TextView
-        android:id="@+id/tv_comments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_favorites"
-        app:layout_constraintStart_toEndOf="@+id/tv_favorites"
-        tools:text="987 comments" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_likes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{Integer.toString(pixabayImage.likes)}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_likes"
+                app:layout_constraintStart_toEndOf="@+id/iv_likes"
+                tools:text="1231" />
+
+            <TextView
+                android:id="@+id/tv_favorites"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{Integer.toString(pixabayImage.favourites)}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_favorites"
+                app:layout_constraintStart_toEndOf="@+id/iv_favorites"
+                tools:text="453" />
+
+            <TextView
+                android:id="@+id/tv_comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{Integer.toString(pixabayImage.comments)}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_comments"
+                app:layout_constraintStart_toEndOf="@+id/iv_comments"
+                tools:text="987" />
+
+            <ImageView
+                android:id="@+id/iv_comments"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_comment_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_favorites"
+                app:layout_constraintStart_toEndOf="@+id/tv_favorites" />
+
+            <ImageView
+                android:id="@+id/iv_likes"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_thumb_up_black_24dp"
+                app:layout_constraintStart_toStartOf="@+id/tv_username"
+                app:layout_constraintTop_toBottomOf="@+id/tv_username" />
+
+            <ImageView
+                android:id="@+id/iv_favorites"
+                android:layout_width="19dp"
+                android:layout_height="19dp"
+                android:layout_marginStart="16dp"
+                android:src="@drawable/ic_favorite_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_likes"
+                app:layout_constraintStart_toEndOf="@+id/tv_likes" />
+
+            <TextView
+                android:id="@+id/tv_tags_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="tags:"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:layout_constraintStart_toStartOf="@+id/iv_likes"
+                app:layout_constraintTop_toBottomOf="@+id/iv_likes" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

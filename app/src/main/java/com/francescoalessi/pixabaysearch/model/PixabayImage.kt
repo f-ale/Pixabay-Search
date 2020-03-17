@@ -14,6 +14,9 @@ data class PixabayImage
     @SerializedName("webformatURL")
     val imageURL: String,
 
+    @SerializedName("previewURL")
+    val previewURL: String,
+
     @SerializedName("largeImageURL")
     val largeImageURL: String,
 
@@ -33,12 +36,26 @@ data class PixabayImage
     val favourites: Int
 )
 
-@BindingAdapter("image")
-fun loadImage(imageView: ImageView, imageURL: String)
+@BindingAdapter("image", "thumbnail")
+fun loadImage(imageView: ImageView, imageURL: String, previewURL:String)
 {
     Glide.with(imageView.context)
         .load(imageURL)
-        .placeholder(R.drawable.ic_image_black_24dp)
+        .thumbnail(Glide.with(imageView.context)
+            .load(previewURL)
+            .centerCrop())
         .centerCrop()
+        .into(imageView)
+}
+
+@BindingAdapter("bigImage", "thumbnail")
+fun loadBigImage(imageView: ImageView, imageURL: String, previewURL:String)
+{
+    Glide.with(imageView.context)
+        .load(imageURL)
+        .thumbnail(Glide.with(imageView.context)
+            .load(previewURL)
+            .fitCenter())
+        .fitCenter()
         .into(imageView)
 }

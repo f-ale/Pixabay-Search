@@ -8,6 +8,7 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.NavHostFragment
 import com.francescoalessi.pixabaysearch.ui.SearchFragment
 import com.francescoalessi.pixabaysearch.ui.SearchViewModel
 
@@ -20,12 +21,13 @@ class MainActivity : AppCompatActivity()
         //(applicationContext as PixabayApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
+        /*
         if (savedInstanceState == null)
         {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, SearchFragment.newInstance())
                 .commitNow()
-        }
+        }*/
 
         viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
         handleIntent(intent)

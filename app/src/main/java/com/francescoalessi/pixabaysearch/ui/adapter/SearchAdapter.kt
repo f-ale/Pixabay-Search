@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.francescoalessi.pixabaysearch.R
@@ -32,12 +34,19 @@ class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
     override fun onBindViewHolder(holder: ViewHolder, position: Int)
     {
         val item = mSearchResults[position]
-        holder.pixabayListItemBinding.pixabayImage = item
+        holder.binding.pixabayImage = item
     }
 
     override fun getItemCount(): Int = mSearchResults.size
 
-    inner class ViewHolder(val pixabayListItemBinding: PixabayListItemBinding)
-        : RecyclerView.ViewHolder(pixabayListItemBinding.root)
-
+    inner class ViewHolder(val binding: PixabayListItemBinding)
+        : RecyclerView.ViewHolder(binding.root)
+    {
+        init
+        {
+            binding.setClickListener {
+                it.findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToImageDetailFragment(this.adapterPosition))
+            }
+        }
+    }
 }
