@@ -8,11 +8,13 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.francescoalessi.pixabaysearch.ui.SearchFragment"
-        android:label="SearchFragment"
+        android:label="PixabaySearch"
         tools:layout="@layout/search_fragment">
         <action
             android:id="@+id/action_searchFragment_to_imageDetailFragment"
-            app:destination="@id/imageDetailFragment" >
+            app:destination="@id/imageDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim">
             <argument
                 android:name="imagePosition"
                 app:argType="integer" />
@@ -21,7 +23,6 @@
     <fragment
         android:id="@+id/imageDetailFragment"
         android:name="com.francescoalessi.pixabaysearch.ui.ImageDetailFragment"
-        android:label="ImageDetailFragment"
         tools:layout="@layout/fragment_image_detail">
         <argument
             android:name="imagePosition"

@@ -7,10 +7,16 @@ import android.os.Bundle
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.francescoalessi.pixabaysearch.ui.SearchFragment
 import com.francescoalessi.pixabaysearch.ui.SearchViewModel
+import kotlinx.android.synthetic.main.main_activity.*
 
 class MainActivity : AppCompatActivity()
 {
@@ -21,18 +27,14 @@ class MainActivity : AppCompatActivity()
         //(applicationContext as PixabayApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        /*
-        if (savedInstanceState == null)
-        {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, SearchFragment.newInstance())
-                .commitNow()
-        }*/
-
         viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
         handleIntent(intent)
-    }
 
+        //setSupportActionBar(toolbar)
+        val navController = findNavController(R.id.nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
 
     override fun onNewIntent(intent: Intent)
     {
@@ -49,17 +51,8 @@ class MainActivity : AppCompatActivity()
         }
     }
 
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean
-    {
-        menuInflater.inflate(R.menu.options_menu, menu)
-
-        // Associate searchable configuration with the SearchView
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        (menu.findItem(R.id.search).actionView as SearchView).apply {
-            setSearchableInfo(searchManager.getSearchableInfo(componentName))
-        }
-
-        return true
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
