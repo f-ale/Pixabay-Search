@@ -12,9 +12,7 @@
         tools:layout="@layout/search_fragment">
         <action
             android:id="@+id/action_searchFragment_to_imageDetailFragment"
-            app:destination="@id/imageDetailFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim">
+            app:destination="@id/imageDetailFragment">
             <argument
                 android:name="imagePosition"
                 app:argType="integer" />
