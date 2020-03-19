@@ -6,7 +6,7 @@
     <data>
         <variable
             name="searchAdapter"
-            type="com.francescoalessi.pixabaysearch.ui.SearchAdapter" />
+            type="com.francescoalessi.pixabaysearch.ui.adapter.SearchAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +24,7 @@
             android:id="@+id/tv_network_error"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Unable to connect to the internet."
+            android:text="@string/unable_to_connect_to_the_internet"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -35,7 +35,7 @@
             android:id="@+id/tv_no_results"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No results found."
+            android:text="@string/no_results_found"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

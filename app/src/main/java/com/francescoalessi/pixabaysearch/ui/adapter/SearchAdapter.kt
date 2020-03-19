@@ -1,24 +1,18 @@
-package com.francescoalessi.pixabaysearch.ui
+package com.francescoalessi.pixabaysearch.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.findFragment
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
-import com.bumptech.glide.Glide
 import com.francescoalessi.pixabaysearch.R
 import com.francescoalessi.pixabaysearch.databinding.PixabayListItemBinding
 import com.francescoalessi.pixabaysearch.model.PixabayImage
-import kotlinx.android.synthetic.main.pixabay_list_item.view.*
+import com.francescoalessi.pixabaysearch.ui.SearchFragmentDirections
 
-class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
+class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
 {
     private var mSearchResults: List<PixabayImage> = emptyList()
 
@@ -54,16 +48,18 @@ class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
             /*
                 Summon detail dialog on click
              */
-            binding.setClickListener {
-                MaterialDialog(it.context).show {
-                    title(text = "Would you like to view more details?")
-                    positiveButton(text = "View") { dialog ->
+            binding.setClickListener{
+                MaterialDialog(it.context).show{
+                    title(R.string.dialog_title)
+                    positiveButton(R.string.dialog_accept)
+                    { dialog ->
                         // Use navigation component to navigate to detail fragment
                         it.findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToImageDetailFragment(viewHolder.adapterPosition))
                         dialog.dismiss()
                     }
-                    negativeButton(text = "Cancel") { dialog ->
-                        dialog.dismiss()
+                    negativeButton(R.string.dialog_deny)
+                    {
+                            dialog -> dialog.dismiss()
                     }
                     // Assign the view's fragment as the dialog's lifecycle owner
                     lifecycleOwner(it.findFragment())

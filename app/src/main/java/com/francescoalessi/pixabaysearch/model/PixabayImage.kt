@@ -3,7 +3,6 @@ package com.francescoalessi.pixabaysearch.model
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
-import com.francescoalessi.pixabaysearch.R
 import com.google.gson.annotations.SerializedName
 
 data class PixabayImage

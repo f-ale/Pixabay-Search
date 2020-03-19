@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Module
 class NetworkModule
 {
-    val BASEURL = "https://pixabay.com/"
+    private val baseUrl = "https://pixabay.com/"
 
     /*
         Provides Retrofit Pixabay Service for injection
@@ -21,7 +21,7 @@ class NetworkModule
     fun providePixabayService(): PixabayService
     {
         return Retrofit.Builder()
-            .baseUrl(BASEURL)
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build().create(PixabayService::class.java)

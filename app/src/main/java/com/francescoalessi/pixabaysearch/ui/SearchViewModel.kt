@@ -3,7 +3,6 @@ package com.francescoalessi.pixabaysearch.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.francescoalessi.pixabaysearch.R
 import com.francescoalessi.pixabaysearch.model.PixabayImage
 import com.francescoalessi.pixabaysearch.model.Repository
 import com.francescoalessi.pixabaysearch.model.SearchResult
@@ -12,10 +11,10 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor(val repository: Repository) : ViewModel() {
-    val disposables : CompositeDisposable = CompositeDisposable()
-    var mSearchResults : MutableLiveData<List<PixabayImage>> = MutableLiveData()
-    val connectionError : MutableLiveData<Boolean> = MutableLiveData(false)
+class SearchViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+    private val disposables : CompositeDisposable = CompositeDisposable()
+    private var mSearchResults : MutableLiveData<List<PixabayImage>> = MutableLiveData()
+    private val connectionError : MutableLiveData<Boolean> = MutableLiveData(false)
 
     init {
         newSearch("fruits")

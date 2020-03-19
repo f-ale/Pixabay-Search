@@ -26,6 +26,7 @@
                 android:adjustViewBounds="true"
                 android:maxHeight="284dp"
                 android:scaleType="centerCrop"
+                android:contentDescription="@string/big_image"
                 app:bigImage="@{pixabayImage.largeImageURL}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +97,8 @@
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_comment_black_24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_favorites"
-                app:layout_constraintStart_toEndOf="@+id/tv_favorites" />
+                app:layout_constraintStart_toEndOf="@+id/tv_favorites"
+                android:contentDescription="@string/comments" />
 
             <ImageView
                 android:id="@+id/iv_likes"
@@ -105,7 +107,8 @@
                 android:layout_marginTop="8dp"
                 android:src="@drawable/ic_thumb_up_black_24dp"
                 app:layout_constraintStart_toStartOf="@+id/tv_username"
-                app:layout_constraintTop_toBottomOf="@+id/tv_username" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_username"
+                android:contentDescription="@string/likes" />
 
             <ImageView
                 android:id="@+id/iv_favorites"
@@ -114,14 +117,15 @@
                 android:layout_marginStart="16dp"
                 android:src="@drawable/ic_favorite_black_24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_likes"
-                app:layout_constraintStart_toEndOf="@+id/tv_likes" />
+                app:layout_constraintStart_toEndOf="@+id/tv_likes"
+                android:contentDescription="@string/favorites" />
 
             <TextView
                 android:id="@+id/tv_tags_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="tags:"
+                android:text="@string/tags"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintStart_toStartOf="@+id/iv_likes"
                 app:layout_constraintTop_toBottomOf="@+id/iv_likes" />

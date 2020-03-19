@@ -3,22 +3,18 @@ package com.francescoalessi.pixabaysearch.ui
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.appcompat.widget.SearchView
-import androidx.databinding.BindingAdapter
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.francescoalessi.pixabaysearch.PixabayApplication
 import com.francescoalessi.pixabaysearch.R
 import com.francescoalessi.pixabaysearch.databinding.SearchFragmentBinding
+import com.francescoalessi.pixabaysearch.ui.adapter.SearchAdapter
 import kotlinx.android.synthetic.main.search_fragment.*
 import javax.inject.Inject
 
@@ -29,8 +25,8 @@ class SearchFragment : Fragment()
 
     private lateinit var mAdapter: SearchAdapter
 
-    lateinit var viewModel: SearchViewModel
-    lateinit var searchView : SearchView
+    private lateinit var viewModel: SearchViewModel
+    private lateinit var searchView : SearchView
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -94,7 +90,7 @@ class SearchFragment : Fragment()
                     result -> mAdapter.setSearchResults(result)
 
                     // Show no results textview when there are no results
-                    if(result.size > 0)
+                    if(result.isNotEmpty())
                         tv_no_results.visibility = View.INVISIBLE
                     else
                         tv_no_results.visibility = View.VISIBLE
@@ -122,7 +118,7 @@ class SearchFragment : Fragment()
     }
 }
 
-class DataObserver(val recyclerView: RecyclerView) : RecyclerView.AdapterDataObserver()
+class DataObserver(private val recyclerView: RecyclerView) : RecyclerView.AdapterDataObserver()
 {
     @Override
     override fun onChanged()
