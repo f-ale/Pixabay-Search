@@ -8,6 +8,7 @@ import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -17,17 +18,21 @@ import androidx.navigation.ui.setupWithNavController
 import com.francescoalessi.pixabaysearch.ui.SearchFragment
 import com.francescoalessi.pixabaysearch.ui.SearchViewModel
 import kotlinx.android.synthetic.main.main_activity.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity()
 {
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
     lateinit var viewModel: SearchViewModel
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
-        //(applicationContext as PixabayApplication).appComponent.inject(this)
+        (applicationContext as PixabayApplication).appComponent.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
-        viewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
+
+        viewModel = ViewModelProvider(this,viewModelFactory).get(SearchViewModel::class.java)
         handleIntent(intent)
 
         //setSupportActionBar(toolbar)

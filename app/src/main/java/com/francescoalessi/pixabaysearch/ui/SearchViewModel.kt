@@ -3,18 +3,19 @@ package com.francescoalessi.pixabaysearch.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.francescoalessi.pixabaysearch.R
 import com.francescoalessi.pixabaysearch.model.PixabayImage
 import com.francescoalessi.pixabaysearch.model.Repository
 import com.francescoalessi.pixabaysearch.model.SearchResult
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
-class SearchViewModel() : ViewModel() {
-    // TODO: Implement the ViewModel
-
+class SearchViewModel @Inject constructor(val repository: Repository) : ViewModel() {
     val disposables : CompositeDisposable = CompositeDisposable()
     var mSearchResults : MutableLiveData<List<PixabayImage>> = MutableLiveData()
+    val newSearchLiveData : MutableLiveData<Boolean> = MutableLiveData()
 
     init {
         newSearch("fruits")
@@ -22,10 +23,17 @@ class SearchViewModel() : ViewModel() {
 
     fun newSearch(query:String)
     {
-        disposables.add(Repository.getSearchResults(query)
+        //TODO: Handle no connection error + other errors
+        disposables.add(repository.getSearchResults(query)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .subscribe({ result: SearchResult ->  mSearchResults.value = result.hits}))
+            .doOnError {  } // TODO: Show 'no connection' textview on error
+            .subscribe({
+                    result: SearchResult ->  mSearchResults.value = result.hits
+                    newSearchLiveData.value = true
+            }))
+
+
     }
 
     fun getSearchResults()  : LiveData<List<PixabayImage>>

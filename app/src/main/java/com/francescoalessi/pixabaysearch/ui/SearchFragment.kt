@@ -11,30 +11,38 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.francescoalessi.pixabaysearch.PixabayApplication
 import com.francescoalessi.pixabaysearch.R
 import com.francescoalessi.pixabaysearch.databinding.SearchFragmentBinding
 import kotlinx.android.synthetic.main.search_fragment.*
+import javax.inject.Inject
 
 class SearchFragment : Fragment()
 {
-    companion object
-    {
-        fun newInstance() = SearchFragment()
-    }
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var mRecyclerView: RecyclerView
     private lateinit var mAdapter: SearchAdapter
 
     lateinit var viewModel: SearchViewModel
+
+    lateinit var searchView : SearchView
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+    }
+
+    override fun onAttach(context: Context)
+    {
+        (activity?.applicationContext as PixabayApplication).appComponent.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(
@@ -53,6 +61,7 @@ class SearchFragment : Fragment()
         val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu.findItem(R.id.search).actionView as SearchView).apply {
             setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
+            searchView = this
         }
 
         super.onCreateOptionsMenu(menu, inflater)
@@ -63,12 +72,19 @@ class SearchFragment : Fragment()
         super.onActivityCreated(savedInstanceState)
 
         val activity: FragmentActivity = activity as FragmentActivity
-        viewModel = ViewModelProviders.of(activity).get(SearchViewModel::class.java)
-        // TODO: Use the ViewModel
+        viewModel = ViewModelProvider(activity,viewModelFactory).get(SearchViewModel::class.java)
+
         rv_search_results.layoutManager = LinearLayoutManager(activity)
         mAdapter = SearchAdapter()
         rv_search_results.adapter = mAdapter
         viewModel.getSearchResults()
-            .observe(viewLifecycleOwner, Observer { result -> mAdapter.setSearchResults(result) })
+            .observe(viewLifecycleOwner, Observer
+            {
+                    result -> mAdapter.setSearchResults(result)
+            })
+
+        viewModel.newSearchLiveData.observe(viewLifecycleOwner, Observer {
+            rv_search_results.scrollToPosition(0)
+        })
     }
 }

@@ -7,7 +7,6 @@ import retrofit2.http.Query
 
 interface PixabayService
 {
-
     @GET("/api/")
     fun getSearchResult(
         @Query("key") apiKey: String,

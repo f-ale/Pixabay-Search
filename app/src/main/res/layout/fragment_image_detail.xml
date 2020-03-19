@@ -10,7 +10,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/design_default_color_surface">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -24,7 +25,7 @@
                 android:layout_height="264dp"
                 android:adjustViewBounds="true"
                 android:maxHeight="284dp"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 app:bigImage="@{pixabayImage.largeImageURL}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -36,10 +37,10 @@
                 android:id="@+id/tv_username"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:text="@{pixabayImage.username}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_image_detail"
                 tools:text="User1234" />
@@ -101,7 +102,6 @@
                 android:id="@+id/iv_likes"
                 android:layout_width="19dp"
                 android:layout_height="19dp"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:src="@drawable/ic_thumb_up_black_24dp"
                 app:layout_constraintStart_toStartOf="@+id/tv_username"

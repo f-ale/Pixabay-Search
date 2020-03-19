@@ -6,9 +6,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.findFragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
 import com.bumptech.glide.Glide
 import com.francescoalessi.pixabaysearch.R
 import com.francescoalessi.pixabaysearch.databinding.PixabayListItemBinding
@@ -44,8 +47,19 @@ class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
     {
         init
         {
+            val viewHolder = this
             binding.setClickListener {
-                it.findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToImageDetailFragment(this.adapterPosition))
+                MaterialDialog(it.context).show {
+                    title(text = "Would you like to view more details?")
+                    positiveButton(text = "View") { dialog ->
+                        it.findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToImageDetailFragment(viewHolder.adapterPosition))
+                        dialog.dismiss()
+                    }
+                    negativeButton(text = "Cancel") { dialog ->
+                        dialog.dismiss()
+                    }
+                    lifecycleOwner(it.findFragment())
+                }
             }
         }
     }
