@@ -22,7 +22,6 @@ class SearchViewModel @Inject constructor(private val repository: Repository) : 
 
     fun newSearch(query:String)
     {
-        //TODO: Handle no connection error + other errors
         disposables.add(repository.getSearchResults(query)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
