@@ -27,7 +27,8 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
-        val view = PixabayListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val view =
+            PixabayListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(view)
     }
 
@@ -39,8 +40,8 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
 
     override fun getItemCount(): Int = mSearchResults.size
 
-    inner class ViewHolder(val binding: PixabayListItemBinding)
-        : RecyclerView.ViewHolder(binding.root)
+    inner class ViewHolder(val binding: PixabayListItemBinding) :
+        RecyclerView.ViewHolder(binding.root)
     {
         init
         {
@@ -48,18 +49,22 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
             /*
                 Summon detail dialog on click
              */
-            binding.setClickListener{
-                MaterialDialog(it.context).show{
+            binding.setClickListener {
+                MaterialDialog(it.context).show {
                     title(R.string.dialog_title)
                     positiveButton(R.string.dialog_accept)
                     { dialog ->
                         // Use navigation component to navigate to detail fragment
-                        it.findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToImageDetailFragment(viewHolder.adapterPosition))
+                        it.findNavController().navigate(
+                            SearchFragmentDirections.actionSearchFragmentToImageDetailFragment(
+                                viewHolder.adapterPosition
+                            )
+                        )
                         dialog.dismiss()
                     }
                     negativeButton(R.string.dialog_deny)
-                    {
-                            dialog -> dialog.dismiss()
+                    { dialog ->
+                        dialog.dismiss()
                     }
                     // Assign the view's fragment as the dialog's lifecycle owner
                     lifecycleOwner(it.findFragment())

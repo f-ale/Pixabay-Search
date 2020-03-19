@@ -36,33 +36,37 @@ data class PixabayImage
 )
 
 /*
-    Data Binding method for loading list item's thumbnails
+ *  Data Binding method for loading list item's thumbnails
  */
 
 @BindingAdapter("image", "thumbnail")
-fun loadImage(imageView: ImageView, imageURL: String, previewURL:String)
+fun loadImage(imageView: ImageView, imageURL: String, previewURL: String)
 {
     Glide.with(imageView.context)
         .load(imageURL)
-        .thumbnail(Glide.with(imageView.context)
-            .load(previewURL)
-            .centerCrop())
+        .thumbnail(
+            Glide.with(imageView.context)
+                .load(previewURL)
+                .centerCrop()
+        )
         .centerCrop()
         .into(imageView)
 }
 
 /*
-    Data Binding method for loading images in detail view
+ *  Data Binding method for loading images in detail view
  */
 
 @BindingAdapter("bigImage", "thumbnail")
-fun loadBigImage(imageView: ImageView, imageURL: String, previewURL:String)
+fun loadBigImage(imageView: ImageView, imageURL: String, previewURL: String)
 {
     Glide.with(imageView.context)
         .load(imageURL)
-        .thumbnail(Glide.with(imageView.context)
-            .load(previewURL)
-            .fitCenter())
+        .thumbnail(
+            Glide.with(imageView.context)
+                .load(previewURL)
+                .fitCenter()
+        )
         .fitCenter()
         .into(imageView)
 }

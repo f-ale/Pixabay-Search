@@ -22,11 +22,9 @@ class SearchFragment : Fragment()
 {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    private lateinit var mAdapter: SearchAdapter
-
     private lateinit var viewModel: SearchViewModel
-    private lateinit var searchView : SearchView
+    private lateinit var mAdapter: SearchAdapter
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
@@ -56,7 +54,7 @@ class SearchFragment : Fragment()
         inflater.inflate(R.menu.options_menu, menu)
 
         /*
-            Enable search functionality in the action bar
+         *  Enable search functionality in the action bar
          */
         val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu.findItem(R.id.search).actionView as SearchView).apply {
@@ -72,39 +70,39 @@ class SearchFragment : Fragment()
         super.onActivityCreated(savedInstanceState)
 
         val activity: FragmentActivity = activity as FragmentActivity
-        viewModel = ViewModelProvider(activity,viewModelFactory).get(SearchViewModel::class.java)
+        viewModel = ViewModelProvider(activity, viewModelFactory).get(SearchViewModel::class.java)
 
         /*
-            Set up the recyclerview
+         *  Set up the recyclerview
          */
         rv_search_results.layoutManager = LinearLayoutManager(activity)
         mAdapter = SearchAdapter()
         rv_search_results.adapter = mAdapter
 
         /*
-            Set adapter's search results once they are available
+         *  Set adapter's search results once they are available
          */
         viewModel.getSearchResults()
             .observe(viewLifecycleOwner, Observer
-            {
-                    result -> mAdapter.setSearchResults(result)
+            { result ->
+                mAdapter.setSearchResults(result)
 
-                    // Show no results textview when there are no results
-                    if(result.isNotEmpty())
-                        tv_no_results.visibility = View.INVISIBLE
-                    else
-                        tv_no_results.visibility = View.VISIBLE
-                    // Scroll back to top when a new search happens
-                    mAdapter.registerAdapterDataObserver(DataObserver(rv_search_results))
+                // Show no results textview when there are no results
+                if (result.isNotEmpty())
+                    tv_no_results.visibility = View.INVISIBLE
+                else
+                    tv_no_results.visibility = View.VISIBLE
+                // Scroll back to top when a new search happens
+                mAdapter.registerAdapterDataObserver(DataObserver(rv_search_results))
             })
 
         /*
-            Show error message if there is a connection error.
+         *  Show error message if there is a connection error.
          */
         viewModel.getConnectionError()
             .observe(viewLifecycleOwner, Observer
             {
-                if(it == true)
+                if (it == true)
                 {
                     tv_network_error.visibility = View.VISIBLE
                     rv_search_results.visibility = View.INVISIBLE

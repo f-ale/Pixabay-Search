@@ -8,17 +8,18 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules =
-[
-    NetworkModule::class,
-    DaggerViewModelInjectionModule::class,
-    SearchViewModelModule::class
-])
+@Component(
+    modules =
+    [
+        NetworkModule::class,
+        DaggerViewModelInjectionModule::class,
+        SearchViewModelModule::class
+    ]
+)
 
 /*
  *  Dagger Dependency Injection main module
  */
-
 interface AppComponent
 {
     // Injection entry points

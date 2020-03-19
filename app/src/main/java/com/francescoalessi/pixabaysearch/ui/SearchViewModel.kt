@@ -11,23 +11,25 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class SearchViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
-    private val disposables : CompositeDisposable = CompositeDisposable()
-    private var mSearchResults : MutableLiveData<List<PixabayImage>> = MutableLiveData()
-    private val connectionError : MutableLiveData<Boolean> = MutableLiveData(false)
+class SearchViewModel @Inject constructor(private val repository: Repository) : ViewModel()
+{
+    private val disposables: CompositeDisposable = CompositeDisposable()
+    private var mSearchResults: MutableLiveData<List<PixabayImage>> = MutableLiveData()
+    private val connectionError: MutableLiveData<Boolean> = MutableLiveData(false)
 
-    init {
+    init
+    {
         newSearch("fruits")
     }
 
-    fun newSearch(query:String)
+    fun newSearch(query: String)
     {
         disposables.add(repository.getSearchResults(query)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(
-                {
-                    result: SearchResult ->  mSearchResults.value = result.hits
+                { result: SearchResult ->
+                    mSearchResults.value = result.hits
                     connectionError.value = false
                 },
                 {
@@ -37,18 +39,19 @@ class SearchViewModel @Inject constructor(private val repository: Repository) : 
         )
     }
 
-    fun getSearchResults() : LiveData<List<PixabayImage>>
+    fun getSearchResults(): LiveData<List<PixabayImage>>
     {
         return mSearchResults
     }
 
-    fun getConnectionError() : LiveData<Boolean>
+    fun getConnectionError(): LiveData<Boolean>
     {
         return connectionError
     }
 
     @Override
-    override fun onCleared() {
+    override fun onCleared()
+    {
         disposables.clear()
     }
 }

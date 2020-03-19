@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity()
         handleIntent(intent)
 
         /*
-            Use the navigation component to handle the action bar
+         *  Use the navigation component to handle the action bar
          */
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity()
     }
 
     /*
-        Handles search intent from ActionBar searchView
+     *  Handles search intent from ActionBar searchView
      */
     private fun handleIntent(intent: Intent)
     {
@@ -53,9 +53,10 @@ class MainActivity : AppCompatActivity()
     }
 
     /*
-        Assign the navigation controller to handle up navigation
+     *  Assign the navigation controller to handle up navigation
      */
-    override fun onSupportNavigateUp(): Boolean {
+    override fun onSupportNavigateUp(): Boolean
+    {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }

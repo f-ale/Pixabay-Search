@@ -7,5 +7,5 @@ import com.francescoalessi.pixabaysearch.di.DaggerAppComponent
 class PixabayApplication : Application()
 {
     // Reference to the DI application graph that is used across the whole app
-    val appComponent : AppComponent = DaggerAppComponent.create()
+    val appComponent: AppComponent = DaggerAppComponent.create()
 }

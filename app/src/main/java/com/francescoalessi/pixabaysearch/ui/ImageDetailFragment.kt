@@ -45,12 +45,14 @@ class ImageDetailFragment : Fragment()
         super.onActivityCreated(savedInstanceState)
 
         val activity: FragmentActivity = activity as FragmentActivity
-        viewModel = ViewModelProvider(activity,viewModelFactory).get(SearchViewModel::class.java)
+        viewModel = ViewModelProvider(activity, viewModelFactory).get(SearchViewModel::class.java)
 
         /*
             Retrieve pixabayImage for detail view
          */
         viewModel.getSearchResults()
-            .observe(viewLifecycleOwner, Observer { result -> binding.pixabayImage = result[args.imagePosition] })
+            .observe(
+                viewLifecycleOwner,
+                Observer { result -> binding.pixabayImage = result[args.imagePosition] })
     }
 }
