@@ -36,6 +36,10 @@ data class PixabayImage
     val favourites: Int
 )
 
+/*
+    Data Binding method for loading list item's thumbnails
+ */
+
 @BindingAdapter("image", "thumbnail")
 fun loadImage(imageView: ImageView, imageURL: String, previewURL:String)
 {
@@ -47,6 +51,10 @@ fun loadImage(imageView: ImageView, imageURL: String, previewURL:String)
         .centerCrop()
         .into(imageView)
 }
+
+/*
+    Data Binding method for loading images in detail view
+ */
 
 @BindingAdapter("bigImage", "thumbnail")
 fun loadBigImage(imageView: ImageView, imageURL: String, previewURL:String)

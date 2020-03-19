@@ -30,7 +30,6 @@ class SearchFragment : Fragment()
     private lateinit var mAdapter: SearchAdapter
 
     lateinit var viewModel: SearchViewModel
-
     lateinit var searchView : SearchView
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -41,6 +40,7 @@ class SearchFragment : Fragment()
 
     override fun onAttach(context: Context)
     {
+        // Enable DI on the fragment
         (activity?.applicationContext as PixabayApplication).appComponent.inject(this)
         super.onAttach(context)
     }
@@ -50,6 +50,7 @@ class SearchFragment : Fragment()
         savedInstanceState: Bundle?
     ): View
     {
+        // Use data binding to inflate the layout
         val binding = SearchFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -58,6 +59,9 @@ class SearchFragment : Fragment()
     {
         inflater.inflate(R.menu.options_menu, menu)
 
+        /*
+            Enable search functionality in the action bar
+         */
         val searchManager = activity?.getSystemService(Context.SEARCH_SERVICE) as SearchManager
         (menu.findItem(R.id.search).actionView as SearchView).apply {
             setSearchableInfo(searchManager.getSearchableInfo(activity?.componentName))
@@ -74,17 +78,55 @@ class SearchFragment : Fragment()
         val activity: FragmentActivity = activity as FragmentActivity
         viewModel = ViewModelProvider(activity,viewModelFactory).get(SearchViewModel::class.java)
 
+        /*
+            Set up the recyclerview
+         */
         rv_search_results.layoutManager = LinearLayoutManager(activity)
         mAdapter = SearchAdapter()
         rv_search_results.adapter = mAdapter
+
+        /*
+            Set adapter's search results once they are available
+         */
         viewModel.getSearchResults()
             .observe(viewLifecycleOwner, Observer
             {
                     result -> mAdapter.setSearchResults(result)
+
+                    // Show no results textview when there are no results
+                    if(result.size > 0)
+                        tv_no_results.visibility = View.INVISIBLE
+                    else
+                        tv_no_results.visibility = View.VISIBLE
+                    // Scroll back to top when a new search happens
+                    mAdapter.registerAdapterDataObserver(DataObserver(rv_search_results))
             })
 
-        viewModel.newSearchLiveData.observe(viewLifecycleOwner, Observer {
-            rv_search_results.scrollToPosition(0)
-        })
+        /*
+            Show error message if there is a connection error.
+         */
+        viewModel.getConnectionError()
+            .observe(viewLifecycleOwner, Observer
+            {
+                if(it == true)
+                {
+                    tv_network_error.visibility = View.VISIBLE
+                    rv_search_results.visibility = View.INVISIBLE
+                }
+                else
+                {
+                    tv_network_error.visibility = View.INVISIBLE
+                    rv_search_results.visibility = View.VISIBLE
+                }
+            })
+    }
+}
+
+class DataObserver(val recyclerView: RecyclerView) : RecyclerView.AdapterDataObserver()
+{
+    @Override
+    override fun onChanged()
+    {
+        recyclerView.scrollToPosition(0)
     }
 }

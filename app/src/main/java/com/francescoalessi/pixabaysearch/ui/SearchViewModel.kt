@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(val repository: Repository) : ViewModel() {
     val disposables : CompositeDisposable = CompositeDisposable()
     var mSearchResults : MutableLiveData<List<PixabayImage>> = MutableLiveData()
-    val newSearchLiveData : MutableLiveData<Boolean> = MutableLiveData()
+    val connectionError : MutableLiveData<Boolean> = MutableLiveData(false)
 
     init {
         newSearch("fruits")
@@ -27,18 +27,26 @@ class SearchViewModel @Inject constructor(val repository: Repository) : ViewMode
         disposables.add(repository.getSearchResults(query)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
-            .doOnError {  } // TODO: Show 'no connection' textview on error
-            .subscribe({
+            .subscribe(
+                {
                     result: SearchResult ->  mSearchResults.value = result.hits
-                    newSearchLiveData.value = true
-            }))
-
-
+                    connectionError.value = false
+                },
+                {
+                    connectionError.value = true
+                }
+            )
+        )
     }
 
-    fun getSearchResults()  : LiveData<List<PixabayImage>>
+    fun getSearchResults() : LiveData<List<PixabayImage>>
     {
         return mSearchResults
+    }
+
+    fun getConnectionError() : LiveData<Boolean>
+    {
+        return connectionError
     }
 
     @Override

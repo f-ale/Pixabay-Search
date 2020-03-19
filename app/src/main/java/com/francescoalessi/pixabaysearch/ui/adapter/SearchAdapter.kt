@@ -22,6 +22,9 @@ class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
 {
     private var mSearchResults: List<PixabayImage> = emptyList()
 
+    /*
+        Updates the adapter's search results
+     */
     fun setSearchResults(searchResults: List<PixabayImage>)
     {
         mSearchResults = searchResults
@@ -48,16 +51,21 @@ class SearchAdapter() : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
         init
         {
             val viewHolder = this
+            /*
+                Summon detail dialog on click
+             */
             binding.setClickListener {
                 MaterialDialog(it.context).show {
                     title(text = "Would you like to view more details?")
                     positiveButton(text = "View") { dialog ->
+                        // Use navigation component to navigate to detail fragment
                         it.findNavController().navigate(SearchFragmentDirections.actionSearchFragmentToImageDetailFragment(viewHolder.adapterPosition))
                         dialog.dismiss()
                     }
                     negativeButton(text = "Cancel") { dialog ->
                         dialog.dismiss()
                     }
+                    // Assign the view's fragment as the dialog's lifecycle owner
                     lifecycleOwner(it.findFragment())
                 }
             }

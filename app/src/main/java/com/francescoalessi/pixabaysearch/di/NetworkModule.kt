@@ -13,6 +13,9 @@ class NetworkModule
 {
     val BASEURL = "https://pixabay.com/"
 
+    /*
+        Provides Retrofit Pixabay Service for injection
+     */
     @Singleton
     @Provides
     fun providePixabayService(): PixabayService

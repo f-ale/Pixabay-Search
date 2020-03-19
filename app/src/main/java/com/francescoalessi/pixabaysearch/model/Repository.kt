@@ -13,7 +13,6 @@ import javax.inject.Inject
 
 class Repository @Inject constructor(val requestInterface : PixabayService)
 {
-    //TODO: REMOVE, get api key from string resources
     var apiKey : String = BuildConfig.API_KEY
 
     fun getSearchResults(searchQuery: String): Observable<SearchResult>

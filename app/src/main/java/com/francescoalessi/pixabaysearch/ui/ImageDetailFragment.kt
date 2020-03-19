@@ -42,8 +42,8 @@ class ImageDetailFragment : Fragment()
         savedInstanceState: Bundle?
     ): View?
     {
-        binding = FragmentImageDetailBinding.inflate(inflater, container, false)
         // Inflate the layout for this fragment
+        binding = FragmentImageDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -53,7 +53,10 @@ class ImageDetailFragment : Fragment()
 
         val activity: FragmentActivity = activity as FragmentActivity
         viewModel = ViewModelProvider(activity,viewModelFactory).get(SearchViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        /*
+            Retrieve pixabayImage for detail view
+         */
         viewModel.getSearchResults()
             .observe(viewLifecycleOwner, Observer { result -> binding.pixabayImage = result[args.imagePosition] })
     }

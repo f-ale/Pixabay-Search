@@ -32,10 +32,12 @@ class MainActivity : AppCompatActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
-        viewModel = ViewModelProvider(this,viewModelFactory).get(SearchViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(SearchViewModel::class.java)
         handleIntent(intent)
 
-        //setSupportActionBar(toolbar)
+        /*
+            Use the navigation component to handle the action bar
+         */
         val navController = findNavController(R.id.nav_host_fragment)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -47,6 +49,9 @@ class MainActivity : AppCompatActivity()
         super.onNewIntent(intent)
     }
 
+    /*
+        Handles search intent from ActionBar searchView
+     */
     private fun handleIntent(intent: Intent)
     {
         if (Intent.ACTION_SEARCH == intent.action)
@@ -56,6 +61,9 @@ class MainActivity : AppCompatActivity()
         }
     }
 
+    /*
+        Assign the navigation controller to handle up navigation
+     */
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()

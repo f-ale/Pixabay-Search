@@ -15,8 +15,13 @@ import javax.inject.Singleton
     SearchViewModelModule::class
 ])
 
+/*
+ *  Dagger Dependency Injection main module
+ */
+
 interface AppComponent
 {
+    // Injection entry points
     fun inject(mainActivity: MainActivity)
     fun inject(searchFragment: SearchFragment)
     fun inject(imageDetailFragment: ImageDetailFragment)
