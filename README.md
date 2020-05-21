@@ -12,6 +12,7 @@ API_KEY="your_api_key"
 ## Libraries Overview
 ### Main Libraries
  * Android Architecture Components
+    * Data Binding
     * Navigation
     * LiveData
     * ViewModel
