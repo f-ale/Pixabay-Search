@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.findFragment
 import androidx.navigation.findNavController
+import androidx.paging.PagedListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.lifecycle.lifecycleOwner
@@ -12,19 +14,8 @@ import com.francescoalessi.pixabaysearch.databinding.PixabayListItemBinding
 import com.francescoalessi.pixabaysearch.model.PixabayImage
 import com.francescoalessi.pixabaysearch.ui.SearchFragmentDirections
 
-class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
+class SearchAdapter : PagedListAdapter<PixabayImage, SearchAdapter.ViewHolder>(DIFF_CALLBACK)
 {
-    private var mSearchResults: List<PixabayImage> = emptyList()
-
-    /*
-        Updates the adapter's search results
-     */
-    fun setSearchResults(searchResults: List<PixabayImage>)
-    {
-        mSearchResults = searchResults
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
     {
         val view =
@@ -34,11 +25,9 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int)
     {
-        val item = mSearchResults[position]
+        val item = getItem(position)
         holder.binding.pixabayImage = item
     }
-
-    override fun getItemCount(): Int = mSearchResults.size
 
     inner class ViewHolder(val binding: PixabayListItemBinding) :
         RecyclerView.ViewHolder(binding.root)
@@ -72,4 +61,18 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.ViewHolder>()
             }
         }
     }
+}
+
+private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<PixabayImage>()
+{
+    override fun areItemsTheSame(oldItem: PixabayImage, newItem: PixabayImage): Boolean
+    {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: PixabayImage, newItem: PixabayImage): Boolean
+    {
+        return oldItem == newItem
+    }
+
 }

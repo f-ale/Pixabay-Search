@@ -2,6 +2,7 @@ package com.francescoalessi.pixabaysearch.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.francescoalessi.pixabaysearch.PixabayApplication
 import com.francescoalessi.pixabaysearch.databinding.FragmentImageDetailBinding
+import com.francescoalessi.pixabaysearch.model.PixabayImage
 import javax.inject.Inject
 
 class ImageDetailFragment : Fragment()
@@ -47,12 +49,14 @@ class ImageDetailFragment : Fragment()
         val activity: FragmentActivity = activity as FragmentActivity
         viewModel = ViewModelProvider(activity, viewModelFactory).get(SearchViewModel::class.java)
 
+        binding.pixabayImage = PixabayImage(0, "", "", "", "", "", 0, 0, 0)
         /*
             Retrieve pixabayImage for detail view
          */
         viewModel.getSearchResults()
             .observe(
                 viewLifecycleOwner,
-                Observer { result -> binding.pixabayImage = result[args.imagePosition] })
+                Observer { result ->
+                    binding.pixabayImage = result[args.imagePosition] })
     }
 }

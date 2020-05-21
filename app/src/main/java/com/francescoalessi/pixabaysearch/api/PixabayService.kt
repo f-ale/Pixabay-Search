@@ -13,6 +13,7 @@ interface PixabayService
     @GET("/api/")
     fun getSearchResult(
         @Query("key") apiKey: String,
-        @Query("q") search: String
+        @Query("q") search: String,
+        @Query("page") page: Int
     ): Observable<SearchResult>
 }

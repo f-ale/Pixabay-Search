@@ -7,9 +7,6 @@
             name="pixabayImage"
             type="com.francescoalessi.pixabaysearch.model.PixabayImage"/>
         <variable
-            name="imagePosition"
-            type="Integer"/>
-        <variable
             name="clickListener"
             type="android.view.View.OnClickListener"/>
     </data>

@@ -3,6 +3,9 @@ package com.francescoalessi.pixabaysearch.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
+import com.francescoalessi.pixabaysearch.data.PixabayDataSourceFactory
 import com.francescoalessi.pixabaysearch.model.PixabayImage
 import com.francescoalessi.pixabaysearch.model.Repository
 import com.francescoalessi.pixabaysearch.model.SearchResult
@@ -14,39 +17,29 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(private val repository: Repository) : ViewModel()
 {
     private val disposables: CompositeDisposable = CompositeDisposable()
-    private var mSearchResults: MutableLiveData<List<PixabayImage>> = MutableLiveData()
-    private val connectionError: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val searchResult : LiveData<PagedList<PixabayImage>> = repository.getSearchResults()
+    private val connectionError = repository.getErrorState()
+    private val noResults = repository.getNoResults()
 
-    init
+    fun newSearch(searchQuery:String)
     {
-        newSearch("fruits")
+        repository.setSearchQuery(searchQuery)
+        searchResult.value?.dataSource?.invalidate()
     }
 
-    fun newSearch(query: String)
+    fun getSearchResults(): LiveData<PagedList<PixabayImage>>
     {
-        disposables.add(repository.getSearchResults(query)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe(
-                { result: SearchResult ->
-                    mSearchResults.value = result.hits
-                    connectionError.value = false
-                },
-                {
-                    connectionError.value = true
-                }
-            )
-        )
-    }
-
-    fun getSearchResults(): LiveData<List<PixabayImage>>
-    {
-        return mSearchResults
+        return searchResult
     }
 
     fun getConnectionError(): LiveData<Boolean>
     {
         return connectionError
+    }
+
+    fun getNoResultsFound() : LiveData<Boolean>
+    {
+        return noResults
     }
 
     @Override

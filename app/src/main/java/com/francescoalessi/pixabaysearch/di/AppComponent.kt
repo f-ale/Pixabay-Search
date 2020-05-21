@@ -2,6 +2,7 @@ package com.francescoalessi.pixabaysearch.di
 
 import com.alexfacciorusso.daggerviewmodel.DaggerViewModelInjectionModule
 import com.francescoalessi.pixabaysearch.MainActivity
+import com.francescoalessi.pixabaysearch.data.PixabayDataSourceFactory
 import com.francescoalessi.pixabaysearch.ui.ImageDetailFragment
 import com.francescoalessi.pixabaysearch.ui.SearchFragment
 import dagger.Component

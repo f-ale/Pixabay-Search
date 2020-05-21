@@ -1,17 +1,34 @@
 package com.francescoalessi.pixabaysearch.model
 
-import com.francescoalessi.pixabaysearch.BuildConfig
-import com.francescoalessi.pixabaysearch.api.PixabayService
-import io.reactivex.Observable
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.switchMap
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
+import com.francescoalessi.pixabaysearch.data.PixabayDataSourceFactory
 import javax.inject.Inject
 
-class Repository @Inject constructor(private val requestInterface: PixabayService)
+class Repository @Inject constructor(private val dataSourceFactory: PixabayDataSourceFactory)
 {
-    private var apiKey: String = BuildConfig.API_KEY
-
-    fun getSearchResults(searchQuery: String): Observable<SearchResult>
+    /*
+     *  Sets a new search query for future data sources
+     */
+    fun setSearchQuery(searchQuery:String)
     {
-        return requestInterface
-            .getSearchResult(apiKey, searchQuery)
+        dataSourceFactory.searchQuery = searchQuery
+    }
+
+    fun getSearchResults(): LiveData<PagedList<PixabayImage>>
+    {
+        return dataSourceFactory.toLiveData(20)
+    }
+
+    fun getErrorState() : LiveData<Boolean>
+    {
+        return dataSourceFactory.latestDataSource.switchMap{it.isError}
+    }
+
+    fun getNoResults() : LiveData<Boolean>
+    {
+        return dataSourceFactory.latestDataSource.switchMap{it.noResults}
     }
 }
